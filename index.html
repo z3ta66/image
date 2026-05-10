@@ -3,108 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeta Webhook Test</title>
+    <title>Myrenia | Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #e63946;
-            --bg: #0a0a0f;
-            --card: #12121c;
+            --red: #e63946;
+            --bg: #07070f;
+            --card: #0d0d1c;
+            --border: rgba(230, 57, 70, 0.2);
+            --gold: #ffd60a;
         }
+
         body {
             background: var(--bg);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
+            color: #e8e8f0;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--red);
+            font-size: 3rem;
+            letter-spacing: 5px;
+            text-shadow: 0 0 15px rgba(230, 57, 70, 0.5);
             margin: 0;
         }
+
         .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+        /* Ürün Kartları */
+        .product-card {
             background: var(--card);
-            padding: 2rem;
+            border: 1px solid var(--border);
             border-radius: 12px;
-            border: 1px solid var(--primary);
-            box-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
-            width: 350px;
+            width: 280px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
         }
-        h2 { text-align: center; color: var(--primary); margin-bottom: 1.5rem; }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: #1a1a2e;
-            border: 1px solid #333;
-            color: white;
-            border-radius: 6px;
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--red);
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.2);
         }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary);
-            border: none;
-            color: white;
+
+        .product-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 0;
+        }
+
+        .price {
+            font-size: 2rem;
+            color: var(--gold);
             font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            color: #aaa;
+        }
+
+        .features li {
+            margin-bottom: 8px;
+        }
+
+        .features li::before {
+            content: "✔";
+            color: var(--red);
+            margin-right: 8px;
+        }
+
+        .buy-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            border-radius: 5px;
             cursor: pointer;
-            border-radius: 6px;
+            width: 100%;
             transition: 0.3s;
         }
-        button:hover { opacity: 0.8; transform: scale(1.02); }
-        #status { text-align: center; margin-top: 15px; font-size: 14px; }
+
+        .buy-btn:hover {
+            background: #ff4d5a;
+        }
+
+        /* Satın Alma Modalı */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: var(--card);
+            padding: 30px;
+            border: 1px solid var(--red);
+            border-radius: 15px;
+            width: 350px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #12122a;
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 5px;
+        }
+
+        #status { margin-top: 15px; text-align: center; }
     </style>
 </head>
 <body>
 
+<header>
+    <h1>MYRENIA STORE</h1>
+    <p>Trap PvP Deneyimini Üst Seviyeye Taşı</p>
+</header>
+
 <div class="container">
-    <h2>ZETA PANEL</h2>
-    <input type="text" id="username" placeholder="Kullanıcı Adı">
-    <input type="text" id="message" placeholder="Mesajın">
-    <button onclick="sendDiscord()">Bildirim Gönder</button>
-    <div id="status"></div>
+    <div class="product-card">
+        <h3>VIP</h3>
+        <div class="price">₺50</div>
+        <ul class="features">
+            <li>Özel VIP Tagı</li>
+            <li>/feed Komutu</li>
+            <li>3 Adet Set Home</li>
+            <li>Giriş Sırası Önceliği</li>
+        </ul>
+        <button class="buy-btn" onclick="openModal('VIP', '₺50')">SATIN AL</button>
+    </div>
+
+    <div class="product-card" style="border-color: var(--gold);">
+        <h3 style="color: var(--gold);">AVIP</h3>
+        <div class="price">₺99</div>
+        <ul class="features">
+            <li>Özel AVIP+ Tagı</li>
+            <li>/fly Uçuş Yetkisi</li>
+            <li>Anında Işınlanma</li>
+            <li>Sınırsız Home Hakkı</li>
+        </ul>
+        <button class="buy-btn" style="background: var(--gold); color: black;" onclick="openModal('Myrenia AVIP', '₺99/ay')">SATIN AL</button>
+    </div>
+
+    <div class="product-card">
+        <h3>1000 KREDİ</h3>
+        <div class="price">₺40</div>
+        <ul class="features">
+            <li>Market Harcaması</li>
+            <li>Kasa Anahtarı Alımı</li>
+            <li>Takaslarda Kullanılabilir</li>
+        </ul>
+        <button class="buy-btn" onclick="openModal('1000 Kredi', '₺40')">SATIN AL</button>
+    </div>
+</div>
+
+<div id="modal">
+    <div class="modal-content">
+        <h2 id="modal-title" style="color: var(--red); margin-top:0;">Ödeme</h2>
+        <input type="text" id="username" placeholder="Minecraft Kullanıcı Adın">
+        <input type="email" id="email" placeholder="E-posta Adresin">
+        <select id="payment">
+            <option value="Mobil Ödeme">Mobil Ödeme</option>
+            <option value="Kredi Kartı">Kredi Kartı</option>
+            <option value="Papara">Papara</option>
+        </select>
+        <button class="buy-btn" onclick="sendOrder()">SİPARİŞİ TAMAMLA</button>
+        <button class="buy-btn" onclick="closeModal()" style="background:transparent; color:#777; margin-top:10px;">İptal</button>
+        <div id="status"></div>
+    </div>
 </div>
 
 <script>
-    async function sendDiscord() {
-        const webhookURL = 'https://discord.com/api/webhooks/1502993354504536164/cnoJZxHy9jvRrcNAVQsYj4QZy70IvnsFWdKAPIH5nUswb9Fui_lwJKkLiWu5zX9fojTW';
+    let selectedProduct = "";
+    let selectedPrice = "";
+
+    function openModal(name, price) {
+        selectedProduct = name;
+        selectedPrice = price;
+        document.getElementById('modal-title').innerText = name;
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    async function sendOrder() {
+        const WEBHOOK = 'https://discord.com/api/webhooks/1502993354504536164/cnoJZxHy9jvRrcNAVQsYj4QZy70IvnsFWdKAPIH5nUswb9Fui_lwJKkLiWu5zX9fojTW';
         const user = document.getElementById('username').value;
-        const msg = document.getElementById('message').value;
+        const mail = document.getElementById('email').value;
+        const pay = document.getElementById('payment').value;
         const statusDiv = document.getElementById('status');
 
-        if(!user || !msg) {
-            statusDiv.innerText = "⚠️ Boş alan bırakma!";
+        if(!user || !mail) {
+            statusDiv.innerHTML = "⚠️ Alanları doldur!";
             return;
         }
 
-        statusDiv.innerText = "⏳ Gönderiliyor...";
+        const orderNo = "#" + Math.floor(Math.random() * 90000 + 10000);
+        const date = new Date().toLocaleString('tr-TR');
 
         try {
-            const response = await fetch(webhookURL, {
+            const response = await fetch(WEBHOOK, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     embeds: [{
-                        title: "🚀 Yeni Bildirim",
-                        color: 15105570, // Kırmızı tonu
+                        title: "🛒 Yeni Sipariş Geldi! — ONAY GEREKLİ",
+                        color: 15105570,
                         fields: [
-                            { name: "Gönderen", value: user, inline: true },
-                            { name: "Mesaj", value: msg }
+                            { name: "👤 Kullanıcı", value: `\`${user}\``, inline: true },
+                            { name: "📦 Ürün", value: `\`${selectedProduct} — ${selectedPrice}\``, inline: true },
+                            { name: "💳 Ödeme", value: `\`${pay}\``, inline: true },
+                            { name: "📧 E-posta", value: `\`${mail}\``, inline: false },
+                            { name: "🔢 Sipariş No", value: `\`${orderNo}\``, inline: true },
+                            { name: "📅 Tarih", value: `\`${date}\``, inline: true }
                         ],
+                        footer: { text: "Myrenia Store System • play.myrenia.com.tr" },
                         timestamp: new Date()
                     }]
                 })
             });
 
-            if (response.ok) {
+            if(response.ok) {
                 statusDiv.style.color = "#2dff6e";
-                statusDiv.innerText = "✅ Discord'a iletildi!";
+                statusDiv.innerText = "✅ Sipariş iletildi! Onay bekleniyor.";
+                setTimeout(closeModal, 2000);
             } else {
-                statusDiv.style.color = "#ff4d4d";
                 statusDiv.innerText = "❌ Hata: " + response.status;
             }
-        } catch (error) {
-            statusDiv.style.color = "#ff4d4d";
+        } catch (e) {
             statusDiv.innerText = "❌ Bağlantı hatası!";
-            console.error(error);
         }
     }
 </script>
